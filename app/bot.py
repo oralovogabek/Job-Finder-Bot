@@ -1,34 +1,56 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
 
 from app.config import BOT_TOKEN
 
-from app.handlers.start import router as start_router
-from app.handlers.jobs import router as jobs_router
-from app.handlers.profile import router as profile_router
-from app.handlers.favorites import router as favorites_router
-from app.handlers.applications import router as applications_router
+from app.handlers import start
+from app.handlers import jobs
+from app.handlers import profile
+from app.handlers import applications
+from app.handlers import admin
 
 
 async def main():
-    bot = Bot(token=BOT_TOKEN)
 
-    dp = Dispatcher()
+    bot = Bot(
+        token=BOT_TOKEN
+    )
 
-    # Routers
-    dp.include_router(start_router)
-    dp.include_router(jobs_router)
-    dp.include_router(profile_router)
-    dp.include_router(favorites_router)
-    dp.include_router(applications_router)
+    dp = Dispatcher(
+        storage=MemoryStorage()
+    )
 
-    print("🤖 Job Finder Bot ishga tushdi!")
+    dp.include_router(
+        start.router
+    )
 
-    try:
-        await dp.start_polling(bot)
-    finally:
-        await bot.session.close()
+    dp.include_router(
+        jobs.router
+    )
+
+    dp.include_router(
+        profile.router
+    )
+
+    dp.include_router(
+        applications.router
+    )
+
+    dp.include_router(
+        admin.router
+    )
+
+    await bot.delete_webhook(
+        drop_pending_updates=True
+    )
+
+    print(
+        "🤖 Job Finder Bot ishga tushdi!"
+    )
+
+    await dp.start_polling(bot)
 
 
 if __name__ == "__main__":

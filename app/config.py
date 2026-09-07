@@ -4,12 +4,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN .env faylda topilmadi")
-
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL .env faylda topilmadi")
+ADMIN_IDS = [
+    int(admin_id.strip())
+    for admin_id in os.getenv("ADMIN_IDS", "").split(",")
+    if admin_id.strip()
+]

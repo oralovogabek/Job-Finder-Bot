@@ -1,23 +1,30 @@
 from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
+from aiogram.fsm.context import FSMContext
 
 from app.keyboards.main import main_keyboard
+from app.states.job_search import JobSearchState
 
 
 router = Router()
 
 
 @router.message(CommandStart())
-async def start_handler(message: Message):
+async def start_handler(
+    message: Message,
+    state: FSMContext
+):
+    await state.clear()
+
+    await state.set_state(
+        JobSearchState.choosing
+    )
+
     await message.answer(
-        "👋 Assalomu alaykum!\n\n"
-        "💼 Job Finder Bot'ga xush kelibsiz!\n\n"
-        "Bu bot orqali siz:\n"
-        "🔎 Vakansiyalarni qidirishingiz\n"
-        "⭐ Vakansiyalarni saqlashingiz\n"
-        "📋 Arizalaringizni ko‘rishingiz\n"
-        "👤 Profilingizni boshqarishingiz mumkin.\n\n"
-        "Quyidagi menyudan foydalaning 👇",
-        reply_markup=main_keyboard,
+        f"👋 Assalomu alaykum, "
+        f"{message.from_user.first_name}!\n\n"
+        "🤖 Job Finder Botga xush kelibsiz!\n\n"
+        "🔎 Keling, sizga mos ishni topamiz.",
+        reply_markup=main_keyboard()
     )

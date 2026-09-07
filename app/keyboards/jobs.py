@@ -1,70 +1,51 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def job_search_keyboard():
-    return ReplyKeyboardMarkup(
-        keyboard=[
+def search_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
             [
-                KeyboardButton(text="📍 Shahar"),
-                KeyboardButton(text="💰 Maosh"),
+                InlineKeyboardButton(
+                    text="📍 Shahar bo‘yicha",
+                    callback_data="search_city"
+                )
             ],
             [
-                KeyboardButton(text="💼 Kasb"),
-                KeyboardButton(text="🔎 Qidirish"),
+                InlineKeyboardButton(
+                    text="💰 Maosh bo‘yicha",
+                    callback_data="search_salary"
+                )
             ],
             [
-                KeyboardButton(text="❌ Bekor qilish"),
+                InlineKeyboardButton(
+                    text="🔎 Ish/Kasb bo‘yicha",
+                    callback_data="search_profession"
+                )
             ],
-        ],
-        resize_keyboard=True
+            [
+                InlineKeyboardButton(
+                    text="📋 Barcha vakansiyalar",
+                    callback_data="all_jobs"
+                )
+            ]
+        ]
     )
 
 
-def cities_keyboard():
-    return ReplyKeyboardMarkup(
-        keyboard=[
+def job_detail_keyboard(job_id: int):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
             [
-                KeyboardButton(text="Toshkent"),
-                KeyboardButton(text="Samarqand"),
+                InlineKeyboardButton(
+                    text="📄 Ariza yuborish",
+                    callback_data=f"apply:{job_id}"
+                )
             ],
             [
-                KeyboardButton(text="Buxoro"),
-                KeyboardButton(text="Andijon"),
-            ],
-            [
-                KeyboardButton(text="Namangan"),
-                KeyboardButton(text="Farg‘ona"),
-            ],
-            [
-                KeyboardButton(text="Xorazm"),
-                KeyboardButton(text="Qashqadaryo"),
-            ],
-            [
-                KeyboardButton(text="⬅️ Orqaga"),
-            ],
-        ],
-        resize_keyboard=True
-    )
-
-
-def salary_keyboard():
-    return ReplyKeyboardMarkup(
-        keyboard=[
-            [
-                KeyboardButton(text="3 000 000"),
-                KeyboardButton(text="5 000 000"),
-            ],
-            [
-                KeyboardButton(text="7 000 000"),
-                KeyboardButton(text="10 000 000"),
-            ],
-            [
-                KeyboardButton(text="15 000 000"),
-                KeyboardButton(text="20 000 000"),
-            ],
-            [
-                KeyboardButton(text="⬅️ Orqaga"),
-            ],
-        ],
-        resize_keyboard=True
+                InlineKeyboardButton(
+                    text="❤️ Sevimliga qo‘shish",
+                    callback_data=f"favorite:{job_id}"
+                )
+            ]
+        ]
     )
